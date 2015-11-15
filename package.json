@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "q": "^1.4.1",
+    "rethinkdb": "^2.1.1",
+    "superagent": "^1.4.0"
+  },
+  "devDependencies": {
+    "source-map-support": "^0.3.2"
+  }
+}
