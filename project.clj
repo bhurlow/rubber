@@ -1,5 +1,6 @@
 (defproject rubber "0.0.1"
   :description "sync rethinkdb and elasticsearch"
+  :main rubber.boot
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.170"]
                  [com.taoensso/timbre "4.1.4"]
