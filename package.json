@@ -1,10 +1,36 @@
 {
+  "name": "rubber",
+  "version": "0.0.1",
+  "description": "sync rethinkdb and elasticsearch",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
   "dependencies": {
-    "q": "^1.4.1",
-    "rethinkdb": "^2.1.1",
+    "event-stream": "^3.3.2",
+    "faker": "^3.0.1",
+    "fakestream": "^0.1.0",
+    "rethinkdb": "^2.2.0",
+    "rethinkdbdash": "^2.2.1",
     "superagent": "^1.4.0"
   },
-  "devDependencies": {
-    "source-map-support": "^0.3.2"
-  }
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhurlow/rubber.git"
+  },
+  "keywords": [
+    "rethinkdb",
+    "elasticsearch",
+    "sync"
+  ],
+  "author": "Brian Hurlow",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bhurlow/rubber/issues"
+  },
+  "homepage": "https://github.com/bhurlow/rubber#readme"
 }
