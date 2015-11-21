@@ -9,7 +9,7 @@
 
 (defn rl [] (require 'rubber.core :reload))
 
-(def search-url "http://192.168.99.100:9200/")
+(def search-url "http://search:9200")
 (defonce r (nodejs/require "rethinkdb"))
 (defonce request (nodejs/require "superagent"))
 
@@ -21,7 +21,7 @@
       (.end (fn [err res] (cb err res)))))
 
 (defn get-db []
-  (-> (.connect r "192.168.99.100")
+  (-> (.connect r "rethink")
       (.then (fn [conn]
                (println conn)
                (if conn 
