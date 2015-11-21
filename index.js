@@ -46,7 +46,7 @@ function backfillTable(dbName, tableName, cb) {
         })
       }))
       .on('finish', function() {
-        console.log('finished!')
+        console.log('finished indexing', dbName + ':' + tableName)
       })
       .on('end', function() {
         console.log('END EVENT')
@@ -54,44 +54,7 @@ function backfillTable(dbName, tableName, cb) {
     })();
 }
 
-backfillTable('test', 'test', function() {
-  console.log('BACKFILL DONE!')
-})
-
-// userStream
-
-// r.db('test')
-//  .table('test')
-//  .get('0003a19e-0bae-4061-a58e-142880dc15ca')
-//  .run()
-//  .then(function(res) {
-//    indexDoc('test', 'test', res, function(err, res) {
-//      console.log(err)
-//      console.log(res.body)
-//    })
-//  })
-
-// function backFillTable(tableName,   ) { }
-
-
-// userStream.pipe(es.stringify()).pipe(process.stdout)
-// var trans = new Transformer()
-
-// userStream.on('end', function(d) {
-//   console.log('streaming over!')
+// backfillTable('test', 'test', function() {
+//   console.log('BACKFILL DONE!')
 // })
-
-// userStream
-//   .pipe(trans)
-//   .pipe(process.stdout)
-//   .on('finish', function() {
-//     console.log('done writing!')
-//   })
-
-// userStream.on('data', function(d) {
-//   console.log(d)
-// })
-
-
-
 
