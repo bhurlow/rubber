@@ -45,3 +45,145 @@ exit
 (:ready *1)
 @(r/connect :host "asdfaefe")
 (check-db)
+@(db-conn)
+@db-conn
+(reset! db-conn 1500000)
+@(db-conn)
+@db-conn
+(reset! db-conn 1500000)
+(get-conn)
+(watch-table)
+(def curs (watch-table))
+curs
+(take curs 10)
+(take 10 curs)
+(take 1 curs)
+(in-thread)
+(doc thread)
+(def curs (watch-table))
+curs
+(take curs)
+(doc take)
+(.take curs)
+(in-thread)
+exit
+(in-thread)
+exit
+(in-thread)
+(def curs (watch-table))
+curs
+(next curs)
+exit
+(in-thread)
+(<! in-thread)
+(<!! in-thread)
+(def feed (in-thread))
+(type feed)
+(def feed (in-thread))
+(<!! feed)
+(keys (<!! feed))
+(def feed (in-thread))
+(keys (<!! feed))
+exit
+(def feed (in-thread))
+(keys (<!! feed))
+(def feed (chan))
+(type chan)
+(pump feed)
+(<!! feed)
+feed
+(close! feed)
+exit
+(def curs (watch-table))
+curs
+(.take curs)
+(.take  1curs)
+(.take 1 curs)
+(.take curs)
+(type curs)
+(.take curs)
+(doall curs)
+(first curs)
+(keys (<!! feed))
+(def feed (chan))
+(pump feed)
+(<!! feed)
+(test-insert "sdfesdf")
+(<!! feed)
+(test-insert "insert1")
+(test-insert "insert2")
+(test-insert "insert3")
+(<!! feed)
+(test-insert "insert3")
+exit
+(test-changes)
+exit
+(def feed (test-changes))
+feed
+(<!! feed)
+(test-changes)
+*1
+(def myc *1)
+myc
+(.size myc)
+(use 'clojure.reflect 'clojure.pprint)
+(doc bean)
+(bean myc)
+(:declaredMethods (bean myc))
+(use 'clojure.reflect)
+(defn all-methods [x]
+    (->> x reflect 
+           :members 
+           (filter :return-type)  
+           (map :name) 
+           sort 
+           (map #(str "." %) )
+           distinct
+           println))
+(all-methods myc)
+(.getBasis myc)
+(.seq myc)
+(doall myc)
+(def myc *1)
+myc
+(def myc (test-changes))
+myc
+(.count myc)
+(count myc)
+(doc rest)
+(take 1 myc)
+myc
+(def myc (test-changes))
+(take 1 myc)
+*1
+(doall myc)
+*1
+(take 1 myc)
+(doall myc)
+(def myc (test-changes))
+myc
+(.token myc)
+(.conn myc)
+(.coll myc)
+(first myc)
+(.coll myc)
+(.token myc)
+(first myc)
+exit
+(def myc (test-changes))
+myc
+(take 10 myc)
+(def myc (test-changes))
+(take 1 myc)
+(def myc (test-changes))
+(take 3 myc)
+(def myc (test-changes))
+(.coll myc)
+(doall myc)
+*1
+*2
+(take 10 myc)
+(def myc (test-changes))
+myc
+(thread (while true (println first myc)))
+exit
