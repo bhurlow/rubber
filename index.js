@@ -8,14 +8,11 @@ var request = require('superagent')
 var util = require('./util')
 const searchUrl = 'http://search:9200/'
 
-function countTable(table, cb) {
-  r.db('test')
-   .table(table)
-   .count()
-   .run()
-   .then(function(doc) {
-     return cb(null, doc)
-   })
+function countTable(dbName, tableName) {
+  return r.db(dbName)
+  .table(tableName)
+  .count()
+  .run()
 }
 
 function changesFeed(dbName, tableName) {
@@ -42,7 +39,7 @@ function backfillTable(dbName, tableName, cb) {
   suspend(function*() {
 
     let count = 0
-    let tableSize = yield countTable(tableName, resume())
+    let tableSize = yield countTable(dbName, tableName)
     let dataStream = r.db(dbName).table(tableName).toStream()
 
     dataStream
@@ -66,9 +63,39 @@ function watchTable(dbName, tableName) {
   }))
 }
 
-// watchTable('test', 'test')
+function ensureTable(dbName, tableName) {
+  countTable(dbName, tableName)
+    .error(function(err) {
+      console.log(err.message)
+      process.exit()
+    })
+}
 
-// backfillTable('test', 'test', function() {
-//   console.log('finished backfill for test:test')
-// })
+function processTable(str) {
+  let parts = str.split(':')
+  // todo es6 destruct
+  let dbName = parts[0]
+  let tableName = parts[1]
+  if (parts.length !== 2) throw new Error('must specify db and table like: \"db:table\"')
+  console.log('starting work on db:', dbName, 'table:', tableName)
+
+  ensureTable(dbName, tableName)
+  watchTable(dbName, tableName)
+  backfillTable(dbName, tableName, function() {
+    console.log('finished backfill for', dbName + ':' + tableName)
+  })
+}
+
+function usage() {
+  console.log('node index.js <db-name>:<table-name>')
+  console.log('node index.js <db-name>:<table-name> <db-name>:<table-name>')
+  process.exit()
+}
+
+var args = process.argv.slice(2)
+if (!args.length) return usage()
+
+// start it up!
+args.map(processTable)
+
 
