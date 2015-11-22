@@ -6,6 +6,9 @@ var path = require('path')
 var r = require('rethinkdbdash')({ host: 'rethink' });
 var request = require('superagent')
 var util = require('./util')
+var debuglib = require('debug')
+var info = debuglib('info')
+var debug = debuglib('debug')
 const searchUrl = 'http://search:9200/'
 
 function countTable(dbName, tableName) {
@@ -45,7 +48,7 @@ function backfillTable(dbName, tableName, cb) {
     dataStream
       .pipe(util.transform(function(chunk, done) {
         indexDoc('test', 'test', chunk, function(err, res) {
-          console.log('indexing:', dbName, tableName, fmtPercentage(count++, tableSize))
+          debug('indexing:', dbName, tableName, fmtPercentage(count++, tableSize))
           done()
         })
       }))
@@ -57,7 +60,7 @@ function watchTable(dbName, tableName) {
   let dataStream = changesFeed(dbName, tableName)
   dataStream.pipe(util.transform(function(chunk, done) {
     indexDoc(dbName, tableName, chunk.new_val, function(err, res) {
-      console.log('indexing:', dbName + ':' + tableName, chunk.new_val.id)
+      info('indexing:', dbName + ':' + tableName, chunk.new_val.id)
       done()
     })
   }))
@@ -82,7 +85,7 @@ function processTable(str) {
   ensureTable(dbName, tableName)
   watchTable(dbName, tableName)
   backfillTable(dbName, tableName, function() {
-    console.log('finished backfill for', dbName + ':' + tableName)
+    info('finished backfill for', dbName + ':' + tableName)
   })
 }
 

@@ -21,7 +21,7 @@ docker run --link rethink:rethink --elasticsearch:search bhurlow/rubber node ind
 
 - args passed into index.js take the form of `db:table`
 - you may specify multiple db:table pairs
-- log level may be set by the `DEBUG` env var e.g. `DEBUG=info` or `DEBUG=error`
+- log level may be set by the `DEBUG` env var e.g. `DEBUG=info,debug` or `DEBUG=info` (quieter)
 - tables are backfilled automatically 
 
 ### Building the Container
