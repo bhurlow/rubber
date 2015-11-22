@@ -33,3 +33,7 @@ git clone https://github.com/bhurlow/rubber.git
 cd rubber
 docker build -t rubber .
 ```
+
+### Todo
+
+- handle db connections better

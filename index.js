@@ -3,12 +3,15 @@
 var suspend = require('suspend')
 var resume = suspend.resume
 var path = require('path')
-var r = require('rethinkdbdash')({ host: 'rethink' });
 var request = require('superagent')
 var util = require('./util')
 var debuglib = require('debug')
 var info = debuglib('info')
 var debug = debuglib('debug')
+
+// var rethinkdb = require('rethinkdbdash')
+// var r;
+var r = require('rethinkdbdash')({ host: 'rethink' });
 const searchUrl = 'http://search:9200/'
 
 function countTable(dbName, tableName) {
@@ -89,6 +92,17 @@ function processTable(str) {
   })
 }
 
+function ensureConnections() {
+  // TODO: I can't find where in rethinkdbdash to handle missed connections
+  // skipping for now b/c its pretty apparent
+  request.get(searchUrl)
+    .end(function(err, res) {
+      if (err && err.code === 'ECONNREFUSED') {
+        throw new Error('cant connect to elasticsearch at ' + searchUrl)
+      }
+    })
+}
+
 function usage() {
   console.log('node index.js <db-name>:<table-name>')
   console.log('node index.js <db-name>:<table-name> <db-name>:<table-name>')
@@ -97,6 +111,8 @@ function usage() {
 
 var args = process.argv.slice(2)
 if (!args.length) return usage()
+
+ensureConnections()
 
 // start it up!
 args.map(processTable)
