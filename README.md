@@ -21,8 +21,10 @@ docker run --link rethink:rethink --elasticsearch:search bhurlow/rubber node ind
 
 - args passed into index.js take the form of `db:table`
 - you may specify multiple db:table pairs
-- log level may be set by the `DEBUG` env var e.g. `DEBUG=info,debug` or `DEBUG=info` (quieter)
+- log level may be set by the `DEBUG` env var e.g. `DEBUG=info` or `DEBUG=error`
 - tables are backfilled automatically 
+
+***note***: the rubber container expects rethinkdb to be accessible at host `rethink` and elasticsearch to be accessible at host `search` (so you gotta link the containers like the example above)
 
 ### Building the Container
 
