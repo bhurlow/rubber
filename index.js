@@ -18,6 +18,13 @@ function countTable(table, cb) {
    })
 }
 
+function changesFeed(dbName, tableName) {
+  return r.db(dbName)
+  .table(tableName)
+  .changes()
+  .toStream()
+}
+
 function indexDoc(dbName, tableName, obj, cb) {
   let url = searchUrl + path.join(dbName, tableName, obj.id)
   request
@@ -45,16 +52,23 @@ function backfillTable(dbName, tableName, cb) {
           done()
         })
       }))
-      .on('finish', function() {
-        console.log('finished indexing', dbName + ':' + tableName)
-      })
-      .on('end', function() {
-        console.log('END EVENT')
-      })
+      .on('finish', cb)
     })();
 }
 
+function watchTable(dbName, tableName) {
+  let dataStream = changesFeed(dbName, tableName)
+  dataStream.pipe(util.transform(function(chunk, done) {
+    indexDoc(dbName, tableName, chunk.new_val, function(err, res) {
+      console.log('indexing:', dbName + ':' + tableName, chunk.new_val.id)
+      done()
+    })
+  }))
+}
+
+// watchTable('test', 'test')
+
 // backfillTable('test', 'test', function() {
-//   console.log('BACKFILL DONE!')
+//   console.log('finished backfill for test:test')
 // })
 
