@@ -50,7 +50,7 @@ function backfillTable(dbName, tableName, cb) {
 
     dataStream
       .pipe(util.transform(function(chunk, done) {
-        indexDoc('test', 'test', chunk, function(err, res) {
+        indexDoc(dbName, tableName, chunk, function(err, res) {
           debug('indexing:', dbName, tableName, fmtPercentage(count++, tableSize))
           done()
         })
